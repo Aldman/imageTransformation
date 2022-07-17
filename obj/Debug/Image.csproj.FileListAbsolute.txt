@@ -13,3 +13,6 @@ C:\Users\AleshkinDV\Desktop\C# наброски\VS15\Курс\Алгоритмы
 C:\Users\AleshkinDV\Desktop\C# наброски\VS15\Курс\Алгоритмы\Image.csproj\bin\Debug\testcentric.engine.metadata.dll
 C:\Users\AleshkinDV\Desktop\C# наброски\VS15\Курс\Алгоритмы\Image.csproj\bin\Debug\nunit.framework.dll
 C:\Users\AleshkinDV\Desktop\C# наброски\VS15\Курс\Алгоритмы\Image.csproj\bin\Debug\nunit.framework.xml
+C:\Users\alyos\OneDrive\Рабочий стол\Проекты\VS2015\Обучение\Алгоритмы\imageTransformation\bin\Debug\Recognizer.exe.config
+C:\Users\alyos\OneDrive\Рабочий стол\Проекты\VS2015\Обучение\Алгоритмы\imageTransformation\obj\Debug\Recognizer.exe
+C:\Users\alyos\OneDrive\Рабочий стол\Проекты\VS2015\Обучение\Алгоритмы\imageTransformation\obj\Debug\Recognizer.pdb
