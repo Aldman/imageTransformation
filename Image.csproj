@@ -67,6 +67,7 @@
     <Compile Include="GrayscaleTask.cs" />
     <Compile Include="HoughTransformTask.cs" />
     <Compile Include="MedianFilterTask.cs" />
+    <Compile Include="MedianFilterTests.cs" />
     <Compile Include="Pixel.cs" />
     <Compile Include="SobelFilterTask.cs" />
     <Compile Include="Line.cs" />

@@ -1,31 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 
 namespace Recognizer
 {
-    // TODO: написать тесты
-    [TestFixture]
-    public class MedianFilterTests
-    {
-        public static IEnumerable<TestCaseData> MedianFilterMethodTestsParams
-        {
-            get
-            {
-
-            }
-        }
-
-
-        public void MedianFilterMethodTests
-            (double[,] original, double[,] expectedResult)
-        {
-
-        }
-    }
-
     internal static class MedianFilterTask
-	{
+    {
         /* 
 		 * Для борьбы с пиксельным шумом, подобным тому, что на изображении,
 		 * обычно применяют медианный фильтр, в котором цвет каждого пикселя, 
@@ -37,24 +16,25 @@ namespace Recognizer
 		 */
 
         public static double[,] MedianFilter(double[,] original)
-		{
-            var originalWidth = original.GetLength(0);
-            var originalHeight = original.GetLength(1);
-            var medians = new double[originalWidth, originalHeight];
-            
+        {
+            var originalHeight = original.GetLength(0);
+            var originalWidth = original.GetLength(1);
+            var medians = new double[originalHeight, originalWidth];
+
             for (int heightPosition = 0; heightPosition < originalHeight; heightPosition++)
                 for (int widthPosition = 0; widthPosition < originalWidth; widthPosition++)
                 {
                     List<double> sortedNearPixels
                         = GetSortedNearPixels(heightPosition, widthPosition,
                         originalWidth, originalHeight, original);
-                    medians[widthPosition, heightPosition]
+                    medians[heightPosition, widthPosition]
                         = GetMedian(sortedNearPixels);
+                    sortedNearPixels.Clear();
                 }
             return medians;
-		}
+        }
 
-        public static double GetMedian (List<double> sortedNearPixels)
+        public static double GetMedian(List<double> sortedNearPixels)
         {
             var lengthList = sortedNearPixels.Count;
             if (lengthList % 2 == 0)
@@ -66,7 +46,6 @@ namespace Recognizer
             }
             else
                 return sortedNearPixels[lengthList / 2];
-            throw new NotImplementedException();
         }
 
         public static List<double> GetSortedNearPixels(
@@ -85,68 +64,69 @@ namespace Recognizer
                 nearPixels, heightPosition, widthPosition, canUp,
                 width, original);
             AddDownLinePixels(nearPixels,
-                heightPosition,widthPosition,
-                canUp, canRight, canLeft,
+                heightPosition, widthPosition,
+                canRight, canLeft,
                 height, original);
             nearPixels.Sort();
             return nearPixels;
         }
 
-        private static void AddDownLinePixels(List<double> nearPixels,
-            int heightPosition, int widthPosition, 
-            bool canUp, bool canRight, bool canLeft,
+        public static void AddDownLinePixels(List<double> nearPixels,
+            int heightPosition, int widthPosition,
+            bool canRight, bool canLeft,
             int height, double[,] original)
         {
-            if (heightPosition + 1 <= height)
+            if (heightPosition + 1 < height)
             {
-                nearPixels.Add(original[widthPosition,
-                    heightPosition + 1]);
+                nearPixels.Add(original[
+                    heightPosition + 1,
+                    widthPosition]);
                 if (canLeft)
                     nearPixels.Add(original[
-                        widthPosition - 1,
-                        heightPosition + 1]);
+                        heightPosition + 1,
+                        widthPosition - 1]);
                 if (canRight)
                     nearPixels.Add(original[
-                        widthPosition + 1,
-                        heightPosition + 1]);
+                        heightPosition + 1,
+                        widthPosition + 1]);
             }
         }
 
-        private static bool CanRightAndAddRighterAndCornerPixels(List<double> nearPixels,
-            int heightPosition, int widthPosition, bool canUp, 
+        public static bool CanRightAndAddRighterAndCornerPixels(List<double> nearPixels,
+            int heightPosition, int widthPosition, bool canUp,
             int width, double[,] original)
         {
-            if (widthPosition + 1 <= width)
+            if (widthPosition + 1 < width)
             {
-                nearPixels.Add(original[widthPosition + 1, heightPosition]);
+                nearPixels.Add(original[heightPosition, widthPosition + 1]);
                 if (canUp)
-                    nearPixels.Add(original[widthPosition + 1
-                        , heightPosition + 1]);
+                    nearPixels.Add(original[heightPosition - 1,
+                        widthPosition + 1]);
                 return true;
             }
             return false;
         }
 
-        private static bool CanLeftAndAddLefterAndCornerPixels(List<double> nearPixels,
+        public static bool CanLeftAndAddLefterAndCornerPixels(List<double> nearPixels,
             int heightPosition, int widthPosition, bool canUp, double[,] original)
         {
             if (widthPosition - 1 >= 0)
             {
-                nearPixels.Add(original[widthPosition - 1, heightPosition]);
+                nearPixels.Add(original[heightPosition, widthPosition - 1]);
                 if (canUp)
-                    nearPixels.Add(original[widthPosition - 1, heightPosition - 1]);
+                    nearPixels.Add(original[heightPosition - 1, widthPosition - 1]);
                 return true;
             }
             return false;
         }
 
-        private static bool CanUpAndAddUpperPixel(List<double> nearPixels,
+        public static bool CanUpAndAddUpperPixel(List<double> nearPixels,
             int heightPosition, int widthPosition,
             int width, int height, double[,] original)
         {
             if (heightPosition - 1 >= 0)
             {
-                nearPixels.Add(original[widthPosition, heightPosition - 1]);
+                nearPixels.Add(original[heightPosition - 1, widthPosition]);
                 return true;
             }
             return false;
