@@ -185,6 +185,22 @@ namespace Recognizer
                 double expectedNumber = 12;
                 yield return new TestCaseData(array1, array2, expectedNumber)
                     .SetName("Simple mul with add");
+
+                array1 = new double[,]
+                {
+                    { -1, 0, 2},
+                    {-5, 4, -7 },
+                    {6, -4, -6 }
+                };
+                array2 = new double[,]
+                {
+                    { 2, 2, 2},
+                    { 2, 2, 2},
+                    { 2, 2, 2}
+                };
+                expectedNumber = -22;
+                yield return new TestCaseData(array1, array2, expectedNumber)
+                    .SetName("Mul with add array 3x3");
             }
         }
 
@@ -194,6 +210,36 @@ namespace Recognizer
         {
             var actualResult = SobelFilterTask
                 .CalculateElByElSquareArrayMulWithAdd(array1, array2);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        public static IEnumerable<TestCaseData> SobelFilterCaseData
+        {
+            get
+            {
+                var g = new double[,]
+                {
+                    {1}
+                };
+                var sx = new double[,]
+                {
+                    { 2}
+                };
+                var expectedResult = new double[,]
+                {
+                    { Math.Sqrt(8)}
+                };
+                yield return new TestCaseData(g, sx, expectedResult)
+                    .SetName("sx = 2, g = 1");
+            }
+        }
+
+        [TestCaseSource("SobelFilterCaseData")]
+        public void SobelFilterTestMethod (double[,] g, 
+            double[,] sx, double[,] expectedResult)
+        {
+            var actualResult = SobelFilterTask
+                .SobelFilter(g, sx);
             Assert.AreEqual(expectedResult, actualResult);
         }
     }

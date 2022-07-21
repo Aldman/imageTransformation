@@ -11,20 +11,15 @@ namespace Recognizer
             var result = new double[width, height];
             var sy = GetTranspositionArray(sx);
             var sxSide = sx.GetLength(0);
-            for (int x = 1; x < width - 1; x++)
-                for (int y = 1; y < height - 1; y++)
+            var deltaSx = (sxSide / 2);
+            for (int x = deltaSx; x < width - deltaSx; x++)
+                for (int y = deltaSx; y < height - deltaSx; y++)
                 {
-                    //TODO: взять массив в окрестности точки [x,y], равный массиву фильтра
-                    //  Новое значение точки будет равно сумме поэлементных произведению g и фильтра
-                    // для отдельно для sx и sy. 
-                    //  Затем по нижней формуле определяется итоговое новое значение пикселя
                     var subArray = GetSquareSubArray(g, sxSide, x, y);
-                    var gx =
-                        -g[x - 1, y - 1] - 2 * g[x, y - 1] - g[x + 1, y - 1]
-                        + g[x - 1, y + 1] + 2 * g[x, y + 1] + g[x + 1, y + 1];
-                    var gy =
-                        -g[x - 1, y - 1] - 2 * g[x - 1, y] - g[x - 1, y + 1]
-                        + g[x + 1, y - 1] + 2 * g[x + 1, y] + g[x + 1, y + 1];
+                    var gx = CalculateElByElSquareArrayMulWithAdd
+                        (sx, subArray);
+                    var gy = CalculateElByElSquareArrayMulWithAdd
+                        (sy, subArray);
                     result[x, y] = Math.Sqrt(gx * gx + gy * gy);
                 }
             return result;
